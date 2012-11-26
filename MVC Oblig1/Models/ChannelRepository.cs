@@ -160,6 +160,10 @@ namespace MVC_Oblig1.Models
 
         internal bool isClosed(string id)
         {
+            if (true) 
+            {
+                //ruben er tøff
+            }
             throw new NotImplementedException();
         }
     }
