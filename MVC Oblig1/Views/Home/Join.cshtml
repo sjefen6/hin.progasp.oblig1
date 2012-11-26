@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Join";
+}
+
+<h2>Join</h2>
+<p>To join a channel, please enter channel name:</p>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true, "Unable to join channel.")
+    <div>
+        <fieldset>
+            <div class="editor-label">
+                @Html.LabelFor(m => m.UserName)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(m => m.UserName)
+                @Html.ValidationMessageFor(m => m.UserName)
+            </div>
+
+            <p>
+                <input type="submit" value="Register" />
+            </p>
+        </fieldset>
+    </div>
+}

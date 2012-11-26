@@ -1,0 +1,60 @@
+﻿@model MVC_Oblig1.Models.DisplayModel
+
+@{
+    ViewBag.Title = "Display";
+}
+
+<h2>View</h2>
+
+<p>
+    @if(Model.isJoined){
+        @Html.ActionLink("New", "SendMessage", new { id = Model.ChannelName })
+    }
+    @if (Model.isOp)
+    {
+        @Html.Display(" - ")
+        @Html.ActionLink("Permissions", "Permissions", new { id = Model.ChannelName })
+    }
+    @if (Model.isClosed)
+    {
+        @Html.Display(" - ")
+        @Html.ActionLink("Invite", "Invite", new { id = Model.ChannelName })
+    }
+</p>
+<table>
+    <tr>
+        <th>
+            Time
+        </th>
+        <th>
+            UserId
+        </th>
+        <th>
+            Content
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.Messages) {
+    <tr>
+        <td>
+             @Html.DisplayFor(modelItem => item.Timestamp)
+        </td>
+        <td>
+            @Membership.GetUser(item.UserId).UserName
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Content)
+        </td>
+        <td>
+            <!--@Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id }) -->
+        </td>
+    </tr>
+}
+
+</table>
+
+<div>
+    @Html.ActionLink("Channels", "Index")
+</div>

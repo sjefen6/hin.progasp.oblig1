@@ -1,0 +1,38 @@
+﻿@model MVC_Oblig1.Models.PermissionsModel
+
+@{
+    ViewBag.Title = "Permissions";
+}
+
+<h2>Permissions</h2>
+
+<table>
+    <tr>
+        <th>
+            UserId
+        </th>
+        <th>
+            Level
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.Permissions) {
+    <tr>
+        <td>
+            @Membership.GetUser(item.UserId).UserName
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Level)
+        </td>
+        <td>
+            @Html.ActionLink("Change Level", "ChangeLevel", new { id = item.ChannelName, user = Membership.GetUser(item.UserId).UserName })
+        </td>
+    </tr>
+}
+
+</table>
+
+<div>
+    @Html.ActionLink("Back to Channel", "Display", new { id = Model.ChannelName })
+</div>
