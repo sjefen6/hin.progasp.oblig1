@@ -158,7 +158,14 @@ namespace MVC_Oblig1.Models
             db.SubmitChanges();
         }
 
+        internal bool isClosed(string id)
         public bool isClosed(string channelName)
+        {
+            if (true) 
+            {
+                //ruben er tøff
+            }
+            throw new NotImplementedException();
         {
             Channel ch = getChannel(channelName);
             return ch.Closed ?? false; // ?? false = false if null
