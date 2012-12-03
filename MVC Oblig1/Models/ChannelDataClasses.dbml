@@ -1,5 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="gruppe5_h12" Class="ChannelDataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="WebSettings" ConnectionString="Data Source=malmen.hin.no;Initial Catalog=gruppe5_h12;Persist Security Info=True;User ID=gruppe5" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="gruppe5_h12ConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Permission" Member="Permissions">
+    <Type Name="Permission">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ChannelName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="[Level]" Member="Level" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Channel_Permission" Member="Channel" ThisKey="ChannelName" OtherKey="Name" Type="Channel" IsForeignKey="true" />
+      <Association Name="aspnet_User_Permission" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.Channel" Member="Channels">
     <Type Name="Channel">
       <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -18,17 +28,8 @@
       <Column Name="IsAnonymous" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="LastActivityDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="aspnet_User_Permission" Member="Permissions" ThisKey="UserId" OtherKey="UserId" Type="Permission" />
-      <Association Name="aspnet_User_Message" Member="Messages" ThisKey="UserId" OtherKey="UserId" Type="Message" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Permission" Member="Permissions">
-    <Type Name="Permission">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="ChannelName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="[Level]" Member="Level" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="aspnet_User_Permission" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
-      <Association Name="Channel_Permission" Member="Channel" ThisKey="ChannelName" OtherKey="Name" Type="Channel" IsForeignKey="true" />
+      <Association Name="aspnet_User_Message" Member="Messages" ThisKey="UserId" OtherKey="Receiver" Type="Message" />
+      <Association Name="aspnet_User_Message1" Member="Messages1" ThisKey="UserId" OtherKey="UserId" Type="Message" />
     </Type>
   </Table>
   <Table Name="dbo.Message" Member="Messages">
@@ -36,10 +37,22 @@
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="Timestamp" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="ChannelName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ChannelName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Receiver" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="Content" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
-      <Association Name="aspnet_User_Message" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
+      <Column Name="FileID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Channel_Message" Member="Channel" ThisKey="ChannelName" OtherKey="Name" Type="Channel" IsForeignKey="true" />
+      <Association Name="aspnet_User_Message" Member="aspnet_User" ThisKey="Receiver" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
+      <Association Name="aspnet_User_Message1" Member="aspnet_User1" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
+      <Association Name="File_Message" Member="File" ThisKey="FileID" OtherKey="id" Type="File" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[File]" Member="Files">
+    <Type Name="File">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Image" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="FileData" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Association Name="File_Message" Member="Messages" ThisKey="id" OtherKey="FileID" Type="Message" />
     </Type>
   </Table>
 </Database>
