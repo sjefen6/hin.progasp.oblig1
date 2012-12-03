@@ -15,7 +15,7 @@
         @Html.Display(" - ")
         @Html.ActionLink("Permissions", "Permissions", new { id = Model.ChannelName })
     }
-    @if (Model.isClosed)
+    @if (Model.isClosed && Model.isOp)
     {
         @Html.Display(" - ")
         @Html.ActionLink("Invite", "Invite", new { id = Model.ChannelName })
