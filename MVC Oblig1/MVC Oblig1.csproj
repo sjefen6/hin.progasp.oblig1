@@ -70,12 +70,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\AttachmentModel.cs" />
     <Compile Include="Models\ChannelDataClasses.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ChannelDataClasses.dbml</DependentUpon>
     </Compile>
     <Compile Include="Models\ChannelRepository.cs" />
+    <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\NotInvitedException.cs" />
     <Compile Include="Models\PermissionsModel.cs" />
     <Compile Include="Models\DisplayModel.cs" />

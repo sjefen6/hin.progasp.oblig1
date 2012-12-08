@@ -23,6 +23,7 @@
 </p>
 <table>
     <tr>
+        <th></th>
         <th>
             Time
         </th>
@@ -38,17 +39,20 @@
 @foreach (var item in Model.Messages) {
     <tr>
         <td>
-             @Html.DisplayFor(modelItem => item.Timestamp)
+            <img src="@Html.DisplayFor(modelItem => item.ProfileImage)" />
         </td>
         <td>
-            @Membership.GetUser(item.UserId).UserName
+             @Html.DisplayFor(modelItem => item.Message.Timestamp)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Content)
+            @Html.DisplayFor(modelItem => item.Username)
         </td>
         <td>
-            <!--@Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id }) -->
+            @Html.DisplayFor(modelItem => item.Message.Content)
+        </td>
+        <td>
+            <!--Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            Html.ActionLink("Delete", "Delete", new { id=item.id }) -->
         </td>
     </tr>
 }

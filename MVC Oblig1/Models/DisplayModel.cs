@@ -9,7 +9,7 @@ namespace MVC_Oblig1.Models
     public class DisplayModel
     {
         public string ChannelName;
-        public List<Message> Messages;
+        public List<MessageFormViewModel> Messages;
         public Boolean isOp;
         public Boolean isJoined;
         public Boolean isClosed;

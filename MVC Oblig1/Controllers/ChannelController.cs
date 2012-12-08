@@ -140,7 +140,11 @@ namespace MVC_Oblig1.Controllers
         {
             DisplayModel display = new DisplayModel();
             display.ChannelName = id;
-            display.Messages = chRep.getAllMessages(id).ToList();
+            display.Messages = new List<MessageFormViewModel>();
+            foreach(Message m in chRep.getAllMessages(id).ToList())
+            {
+                display.Messages.Add(new MessageFormViewModel(m));
+            }
             display.isOp = chRep.isOp(id, User.Identity.Name);
             display.isJoined = chRep.isJoined(id, User.Identity.Name);
             display.isClosed = chRep.isClosed(id);
