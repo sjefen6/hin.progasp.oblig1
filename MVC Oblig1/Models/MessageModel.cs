@@ -5,9 +5,36 @@ using System.Web;
 using System.Web.Mvc;
 using System.Security.Cryptography;
 using System.Text;
+using System.ComponentModel.DataAnnotations;
 
 namespace MVC_Oblig1.Models
 {
+    public class MessageSendDM
+    {
+        private ChannelRepository channelRepository;
+
+        public Message Message;
+
+        [Required]
+        public SelectList Receivers { get; private set;}
+
+        
+
+        public MessageSendDM(Message Message)
+        {
+            channelRepository = new ChannelRepository();
+            this.Message = Message;
+            if (Message.Receiver.HasValue)
+            {
+                Receivers = new SelectList(channelRepository.userDB.getAllUsers(), "UserID", "UserName", channelRepository.userDB.getUser((Guid)Message.Receiver).UserName);
+            }
+            else
+            {
+                Receivers = new SelectList(channelRepository.userDB.getAllUsers(), "UserID", "UserName");
+            }
+        }
+    }
+
     public class MessageFormViewModel
     {
         private ChannelRepository channelRepository;

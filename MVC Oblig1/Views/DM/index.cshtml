@@ -1,0 +1,31 @@
+﻿@model IEnumerable<MVC_Oblig1.Models.aspnet_User>
+
+@{
+    ViewBag.Title = "Channels";
+}
+
+<h2>Channels</h2>
+
+<p>
+    @Html.ActionLink("Send Message", "SendMessage")
+</p>
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.ActionLink("Display", "Display", new { id = item.UserName })
+        </td>
+    </tr>
+}
+
+</table>

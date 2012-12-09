@@ -26,5 +26,10 @@ namespace MVC_Oblig1.Models
         {
             return db.aspnet_Users.SingleOrDefault(usr => usr.UserId == userID);
         }
+
+        public List<aspnet_User> getAllUsers()
+        {
+            return db.aspnet_Users.ToList();
+        }
     }
 }

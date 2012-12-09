@@ -27,7 +27,7 @@ namespace MVC_Oblig1.Models
         {
             return db.Channels;
         }
-        
+
         public IQueryable<Message> getAllMessages(String channelName)
         {
             return (from m in db.Messages
@@ -75,7 +75,9 @@ namespace MVC_Oblig1.Models
                     db.Permissions.InsertOnSubmit(p);
                     db.SubmitChanges();
                 }
-            } catch (NullReferenceException e) {
+            }
+            catch (NullReferenceException e)
+            {
 
                 throw new NotInvitedException();
             }
@@ -110,6 +112,41 @@ namespace MVC_Oblig1.Models
                     where p.UserId == userDB.getUser(username).UserId
                     & p.Level > 0
                     select p);
+        }
+
+        public IQueryable<aspnet_User> showAllDMChannels(string username)
+        {
+            IQueryable<Message> messages = from m in db.Messages
+                    where (m.UserId == userDB.getUser(username).UserId &&
+                                               m.Receiver != null) ||
+                    m.Receiver == userDB.getUser(username).UserId
+                    select m;
+
+            List<Guid> userIDs = new List<Guid>();
+
+            foreach (Message m in messages)
+            {
+                if (m.UserId == userDB.getUser(username).UserId)
+                {
+                    userIDs.Add((Guid) m.Receiver);
+                }
+                else
+                {
+                    userIDs.Add(m.UserId);
+                }
+            }
+
+            userIDs = userIDs.Distinct().ToList<Guid>();
+
+            List<aspnet_User> users = new List<aspnet_User>();
+
+            foreach(Guid id in userIDs){
+                    users.Add((from u in db.aspnet_Users
+                    where u.UserId == id 
+                    select u).First<aspnet_User>());
+            }
+            
+            return users.AsQueryable();
         }
 
         public Permission getPermission(string channelName, string username)
@@ -162,6 +199,17 @@ namespace MVC_Oblig1.Models
         {
             Channel ch = getChannel(channelName);
             return ch.Closed ?? false; // ?? false = false if null
+        }
+
+        public IQueryable<Message> getAllMessages(string user1, string user2)
+        {
+            return (from m in db.Messages
+                    where (m.UserId == userDB.getUser(user1).UserId &&
+                    m.Receiver == userDB.getUser(user2).UserId) ||
+                    (m.UserId == userDB.getUser(user2).UserId &&
+                    m.Receiver == userDB.getUser(user1).UserId)
+                    orderby m.id descending
+                    select m);
         }
     }
 }
