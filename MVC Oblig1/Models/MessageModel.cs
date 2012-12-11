@@ -18,15 +18,13 @@ namespace MVC_Oblig1.Models
         [Required]
         public SelectList Receivers { get; private set;}
 
-        
-
         public MessageSendDM(Message Message)
         {
             channelRepository = new ChannelRepository();
             this.Message = Message;
             if (Message.Receiver.HasValue)
             {
-                Receivers = new SelectList(channelRepository.userDB.getAllUsers(), "UserID", "UserName", channelRepository.userDB.getUser((Guid)Message.Receiver).UserName);
+                Receivers = new SelectList(channelRepository.userDB.getAllUsers(), "UserID", "UserName", (Guid) Message.Receiver);
             }
             else
             {

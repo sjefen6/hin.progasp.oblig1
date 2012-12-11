@@ -14,10 +14,13 @@
     <fieldset>
         <legend>Message</legend>
 
+        @if (Model.Receivers.SelectedValues == null)
+        {
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.Message.Receiver, Model.Receivers)
+                @Html.DropDownListFor(model => model.Message.Receiver, Model.Receivers)   
         </div>
-
+        }
+            
         <div class="editor-label">
             @Html.LabelFor(model => model.Message.Content)
         </div>

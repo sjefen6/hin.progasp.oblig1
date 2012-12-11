@@ -76,12 +76,12 @@ namespace MVC_Oblig1.Controllers
 
             try
             {
-                UpdateModel(dm.Message, wl.ToArray());
+                UpdateModel(dm.Message, "Message", wl.ToArray());
                 if (dm.Message.Receiver == null)
                     throw new Exception();
                 chRep.sendMessage(dm.Message, User.Identity.Name);
 
-                return RedirectToAction("Display", new { id = id });
+                return RedirectToAction("Display", new { id = chRep.userDB.getUser((Guid) dm.Message.Receiver).UserName });
             }
             catch (Exception e)
             {
