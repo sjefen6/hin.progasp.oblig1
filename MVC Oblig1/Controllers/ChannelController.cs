@@ -109,7 +109,8 @@ namespace MVC_Oblig1.Controllers
             if (chRep.isOp(id, User.Identity.Name)) try
             {
                 // TODO: Add insert logic here
-                chRep.invite(id, collection.Get("UserName"));
+                string s = collection.Get("UserName");
+                chRep.invite(id, s);
 
                 return RedirectToAction("Index");
             }

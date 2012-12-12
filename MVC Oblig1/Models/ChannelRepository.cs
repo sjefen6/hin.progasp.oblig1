@@ -65,7 +65,7 @@ namespace MVC_Oblig1.Models
 
             try
             {
-                if ((ch.Closed == false && p == null) || p.Level == 0)
+                if ((ch.Closed == false && p == null) || level == 0 || p.Level == 0)
                 {
                     p = new Permission();
                     p.UserId = user.UserId;
