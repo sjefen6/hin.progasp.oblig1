@@ -67,6 +67,7 @@
     <Compile Include="Controllers\ChannelController.cs" />
     <Compile Include="Controllers\DMController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PswinController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -82,6 +83,7 @@
     <Compile Include="Models\NotInvitedException.cs" />
     <Compile Include="Models\PermissionsModel.cs" />
     <Compile Include="Models\DisplayModel.cs" />
+    <Compile Include="Models\PswinRepository.cs" />
     <Compile Include="Models\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
