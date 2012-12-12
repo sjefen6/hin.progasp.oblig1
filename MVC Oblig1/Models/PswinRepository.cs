@@ -101,7 +101,8 @@ namespace MVC_Oblig1.Models
         {
             foreach (aspnet_User reciver in chRep.userDB.getAllUsers())
             {
-                SMS sms = getFromCodeword("d " + reciver.UserName);
+                String codeword = "d " + reciver.UserName;
+                SMS sms = getFromCodeword(codeword);
                 if (sms.status == "received")
                 {
                     foreach (aspnet_User sender in chRep.userDB.getAllUsers())
@@ -110,7 +111,15 @@ namespace MVC_Oblig1.Models
                         {
                             Message m = new Message();
                             m.Receiver = reciver.UserId;
-                            m.Content = sms.TXT;
+                            m.Content = sms.TXT.TrimStart(codeword.ToCharArray());
+
+                            try
+                            {
+                                if (chRep.userDB.getUser((Guid)m.Receiver).MobileAlias != null)
+                                    sendSMS("d " + chRep.userDB.getUser(m.UserId).UserName + ": " + m.Content, chRep.userDB.getUser((Guid)m.Receiver).MobileAlias);
+                            }
+                            catch { }
+
                             chRep.sendMessage(m, sender.UserName);
                         }
                     }
@@ -119,7 +128,8 @@ namespace MVC_Oblig1.Models
 
             foreach (Channel c in chRep.showAllChannels())
             {
-                SMS sms = getFromCodeword("c " + c.Name);
+                String codeword = "c " + c.Name;
+                SMS sms = getFromCodeword(codeword);
                 if (sms.status == "received")
                 {
                     foreach (aspnet_User sender in chRep.userDB.getAllUsers())
@@ -128,7 +138,7 @@ namespace MVC_Oblig1.Models
                         {
                             if (sms.TXT == "c " + c.Name)
                             {
-                                Message m = chRep.getAllMessages(c.Name).ToList().Last();
+                                Message m = chRep.getAllMessages(c.Name).ToList().First();
                                 if (m != null)
                                 {
                                     sendSMS(chRep.userDB.getUser(m.UserId).UserName + ": " + m.Content, sender.MobileAlias);
@@ -138,7 +148,7 @@ namespace MVC_Oblig1.Models
                             {
                                 Message m = new Message();
                                 m.ChannelName = c.Name;
-                                m.Content = sms.TXT;
+                                m.Content = sms.TXT.TrimStart(codeword.ToCharArray());;
                                 chRep.sendMessage(m, sender.UserName);
                             }
                         }

@@ -10,10 +10,12 @@ namespace MVC_Oblig1.Controllers
     public class DMController : Controller
     {
         private ChannelRepository chRep;
+        private PswinRepository psRep;
 
         public DMController()
         {
             chRep = new ChannelRepository();
+            psRep = new PswinRepository();
         }
 
         //
@@ -80,6 +82,12 @@ namespace MVC_Oblig1.Controllers
                 if (dm.Message.Receiver == null)
                     throw new Exception();
                 chRep.sendMessage(dm.Message, User.Identity.Name);
+                try
+                {
+                    if (chRep.userDB.getUser((Guid)dm.Message.Receiver).MobileAlias != null)
+                        psRep.sendSMS("d " + chRep.userDB.getUser(dm.Message.UserId).UserName + ": " + dm.Message.Content, chRep.userDB.getUser((Guid)dm.Message.Receiver).MobileAlias);
+                }
+                catch { }
 
                 return RedirectToAction("Display", new { id = chRep.userDB.getUser((Guid) dm.Message.Receiver).UserName });
             }
